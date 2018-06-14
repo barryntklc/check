@@ -1,0 +1,7 @@
+C:\SmartGit\check\win\check.win\bin\Debug\check.win.exe.config
+C:\SmartGit\check\win\check.win\bin\Debug\check.win.exe
+C:\SmartGit\check\win\check.win\bin\Debug\check.win.pdb
+C:\SmartGit\check\win\check.win\obj\Debug\check.win.csprojAssemblyReference.cache
+C:\SmartGit\check\win\check.win\obj\Debug\check.win.csproj.CoreCompileInputs.cache
+C:\SmartGit\check\win\check.win\obj\Debug\check.win.exe
+C:\SmartGit\check\win\check.win\obj\Debug\check.win.pdb
