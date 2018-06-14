@@ -1,0 +1,10 @@
+E:\SmartGit\check\win\check.win\bin\Release\check.win.exe.config
+E:\SmartGit\check\win\check.win\bin\Release\check.win.exe
+E:\SmartGit\check\win\check.win\bin\Release\check.win.pdb
+E:\SmartGit\check\win\check.win\obj\Release\check.win.csproj.CoreCompileInputs.cache
+E:\SmartGit\check\win\check.win\obj\Release\check.win.exe
+E:\SmartGit\check\win\check.win\obj\Release\check.win.pdb
+E:\SmartGit\check\win\check.win\bin\Release\EPPlus.dll
+E:\SmartGit\check\win\check.win\bin\Release\EPPlus.xml
+E:\SmartGit\check\win\check.win\obj\Release\check.win.csprojAssemblyReference.cache
+E:\SmartGit\check\win\check.win\obj\Release\check.win.csproj.CopyComplete

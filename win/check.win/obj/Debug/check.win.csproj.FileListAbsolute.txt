@@ -5,3 +5,13 @@ C:\SmartGit\check\win\check.win\obj\Debug\check.win.csprojAssemblyReference.cach
 C:\SmartGit\check\win\check.win\obj\Debug\check.win.csproj.CoreCompileInputs.cache
 C:\SmartGit\check\win\check.win\obj\Debug\check.win.exe
 C:\SmartGit\check\win\check.win\obj\Debug\check.win.pdb
+E:\SmartGit\check\win\check.win\bin\Debug\check.win.exe.config
+E:\SmartGit\check\win\check.win\bin\Debug\check.win.exe
+E:\SmartGit\check\win\check.win\bin\Debug\check.win.pdb
+E:\SmartGit\check\win\check.win\obj\Debug\check.win.csprojAssemblyReference.cache
+E:\SmartGit\check\win\check.win\obj\Debug\check.win.csproj.CoreCompileInputs.cache
+E:\SmartGit\check\win\check.win\obj\Debug\check.win.exe
+E:\SmartGit\check\win\check.win\obj\Debug\check.win.pdb
+E:\SmartGit\check\win\check.win\bin\Debug\EPPlus.dll
+E:\SmartGit\check\win\check.win\bin\Debug\EPPlus.xml
+E:\SmartGit\check\win\check.win\obj\Debug\check.win.csproj.CopyComplete
