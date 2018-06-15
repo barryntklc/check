@@ -95,9 +95,12 @@ Options:
                     VERBOSE = true;
                 }
 
-                Console.WriteLine("src_path=\"" + SRC_PATH + "\"");
-                Console.WriteLine("log_path=\"" + LOG_PATH + "\"");
-                Console.WriteLine("verbose=" + VERBOSE);
+                if (VERBOSE)
+                {
+                    Console.WriteLine("src_path=\"" + SRC_PATH + "\"");
+                    Console.WriteLine("log_path=\"" + LOG_PATH + "\"");
+                    Console.WriteLine("verbose=" + VERBOSE);
+                }
 
                 Console.WriteLine("Loading file listing...");
                 FileItem[] FileTree = GetFileTree(SRC_PATH);
@@ -143,7 +146,7 @@ Options:
         static FileItem[] GetFileTree(String path)
         {
             List<FileItem> files = new List<FileItem>();
-            FileInfo[] fileinfo = new DirectoryInfo(path).GetFiles();
+            FileInfo[] fileinfo = new DirectoryInfo(path).GetFiles(); //too long
             foreach (FileInfo f in fileinfo)
             {
                 FileItem i = new FileItem();
@@ -172,7 +175,17 @@ Options:
 
             foreach (String d in directories)
             {
-                files.AddRange(GetFileTree(d));
+                try
+                {
+                    files.AddRange(GetFileTree(d)); //too long
+                }
+                catch (Exception e) //catch folder exceptions
+                {
+                    FileItem i = new FileItem();
+                    i.PATH = d;
+                    i.DEBUG = e.Message;
+                }
+                //files.AddRange(GetFileTree(d)); //too long
             }
 
             return files.ToArray();
