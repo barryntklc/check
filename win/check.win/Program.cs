@@ -11,83 +11,107 @@ namespace check.win
 {
     class Program
     {
+        static Boolean VERBOSE = false;
+
+        static String PROGNAME = "check";
+        static String OSNAME = "win";
+        static String VERSION = "1.0";
+        static String FILETAG = PROGNAME + "." + OSNAME;
+
         static void Main(string[] args)
         {
-            String PROGNAME = "check";
-            String OSNAME = "win";
-            String VERSION = "1.0";
-            String FILETAG = PROGNAME + "." + OSNAME;
-
-            String ABOUT = PROGNAME + "." + OSNAME + " v" + VERSION;
-
-            Console.WriteLine(ABOUT);
-
-            //todo handler for /?
-
-            String SRC_PATH;
-            if (args.Contains<String>("/s"))
+            if (args.Contains<String>("/?"))
             {
-                int pos = Array.IndexOf(args, "/s");
+                String HELP_MSG = @"Dumps the path, size, and checksum of files into an Excel spreadsheet (.xlsx).
 
-                SRC_PATH = Path.GetFullPath(args[pos + 1]);
+By default, scans the current folder and dumps information to a spreadsheet in the same folder.
 
-            } else
-            {
-                SRC_PATH = Path.GetFullPath(".");
-            }
+USAGE:
+    check.win.exe /s [source directory path] | [ /? | 
+                                                /v | 
+                                                /verbose | 
+                                                /log [excel file path] ]
 
-            String DEFAULT_LOGNAME = FILETAG + "_" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss") + ".xlsx";
-            String LOG_PATH = "";
-            if (args.Contains<String>("/log"))
-            {
-                int pos = Array.IndexOf(args, "/log");
+Options:
+    /?                          Display this help message
+    /v  /verbose                Show extra information, for diagnostic purposes
+    /s [source directory path]  Check all files from the [source directory path]
+    /log [excel file path]      Save the file to the specified [excel file path]
+";
 
-                LOG_PATH = Path.GetFullPath(args[pos + 1]);
-
-                try
-                {
-                    //https://stackoverflow.com/questions/1395205/better-way-to-check-if-a-path-is-a-file-or-a-directory
-                    FileAttributes i = File.GetAttributes(args[pos + 1]);
-                    if (i.HasFlag(FileAttributes.Directory))
-                    {
-                        LOG_PATH = Path.GetFullPath(args[pos + 1]) + "\"" + DEFAULT_LOGNAME;
-                    } else
-                    {
-                        LOG_PATH = args[pos + 1];
-                    }
-                } catch (Exception e)
-                {
-                    LOG_PATH = DEFAULT_LOGNAME;
-                }
+                Console.WriteLine(HELP_MSG);
             }
             else
             {
-                LOG_PATH = DEFAULT_LOGNAME;
+                String ABOUT = PROGNAME + "." + OSNAME + " v" + VERSION;
+                Console.WriteLine(ABOUT);
+
+                String SRC_PATH;
+                if (args.Contains<String>("/s"))
+                {
+                    int arg_position = Array.IndexOf(args, "/s");
+
+                    SRC_PATH = Path.GetFullPath(args[arg_position + 1]);
+
+                }
+                else
+                {
+                    SRC_PATH = Path.GetFullPath(".");
+                }
+
+                String DEFAULT_LOGNAME = FILETAG + "_" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss") + ".xlsx";
+                String LOG_PATH = "";
+                if (args.Contains<String>("/log"))
+                {
+                    int arg_position = Array.IndexOf(args, "/log");
+
+                    LOG_PATH = Path.GetFullPath(args[arg_position + 1]);
+
+                    try
+                    {
+                        //https://stackoverflow.com/questions/1395205/better-way-to-check-if-a-path-is-a-file-or-a-directory
+                        FileAttributes i = File.GetAttributes(args[arg_position + 1]);
+                        if (i.HasFlag(FileAttributes.Directory))
+                        {
+                            LOG_PATH = Path.GetFullPath(args[arg_position + 1]) + "\\" + DEFAULT_LOGNAME;
+                        }
+                        else
+                        {
+                            LOG_PATH = args[arg_position + 1];
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        LOG_PATH = args[arg_position + 1];
+                    }
+                }
+                else
+                {
+                    LOG_PATH = DEFAULT_LOGNAME;
+                }
+
+                if (args.Contains<String>("/v") || args.Contains<String>("/verbose"))
+                {
+                    VERBOSE = true;
+                }
+
+                Console.WriteLine("src_path=\"" + SRC_PATH + "\"");
+                Console.WriteLine("log_path=\"" + LOG_PATH + "\"");
+                Console.WriteLine("verbose=" + VERBOSE);
+
+                Console.WriteLine("Loading file listing...");
+                FileItem[] FileTree = GetFileTree(SRC_PATH);
+                Console.WriteLine("File listing loaded.");
+
+                //source:
+                //https://tedgustaf.com/blog/2012/create-excel-20072010-spreadsheets-with-c-and-epplus/
+
+                FileInfo EXCEL_PATH = new FileInfo(LOG_PATH);
+
+                Console.WriteLine("Building excel file.");
+                BuildExcel(FileTree, EXCEL_PATH);
+                Console.WriteLine("Excel file saved to \"" + LOG_PATH + "\".");
             }
-
-            Console.WriteLine("src_path=\"" + SRC_PATH + "\"");
-            Console.WriteLine("dest_path=\"" + LOG_PATH + "\"");
-
-            Console.WriteLine("Loading file listing...");
-            FileItem[] FileTree = GetFileTree(SRC_PATH);
-            Console.WriteLine("File listing loaded.");
-
-            //Console.WriteLine(LOG_PATH.Equals(""));
-
-            //source:
-            //https://tedgustaf.com/blog/2012/create-excel-20072010-spreadsheets-with-c-and-epplus/
-
-            FileInfo EXCEL_PATH = new FileInfo(LOG_PATH);
-
-            Console.WriteLine("Building excel file at \"" + LOG_PATH + "\"");
-            BuildExcel(FileTree, EXCEL_PATH);
-            Console.WriteLine("Excel file saved.");
-
-            //get path
-            //
-            //return filepath
-            //return filesize
-            //return checksum
         }
 
         //https://tedgustaf.com/blog/2012/create-excel-20072010-spreadsheets-with-c-and-epplus/
@@ -135,7 +159,11 @@ namespace check.win
                     i.DEBUG = e.Message;
                 }
 
-                //Console.WriteLine(i.SIZE + ", " + i.CHECKSUM + ", " + i.DEBUG);
+                if (VERBOSE)
+                {
+                    Console.WriteLine(i.PATH);
+                    Console.WriteLine("\t" + i.SIZE + ", " + i.CHECKSUM + ", " + i.DEBUG);
+                }
 
                 files.Add(i);
             }
