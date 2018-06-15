@@ -146,7 +146,7 @@ Options:
         static FileItem[] GetFileTree(String path)
         {
             List<FileItem> files = new List<FileItem>();
-            FileInfo[] fileinfo = new DirectoryInfo(path).GetFiles(); //too long
+            FileInfo[] fileinfo = new DirectoryInfo(path).GetFiles(); //throws exceptions if path too long
             foreach (FileInfo f in fileinfo)
             {
                 FileItem i = new FileItem();
@@ -181,11 +181,13 @@ Options:
                 }
                 catch (Exception e) //catch folder exceptions
                 {
+                    Console.WriteLine(d);
                     FileItem i = new FileItem();
                     i.PATH = d;
                     i.DEBUG = e.Message;
+
+                    files.Add(i);
                 }
-                //files.AddRange(GetFileTree(d)); //too long
             }
 
             return files.ToArray();
