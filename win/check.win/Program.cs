@@ -197,8 +197,8 @@ Options:
         //https://stackoverflow.com/questions/1993903/how-do-i-do-a-sha1-file-checksum-in-c/1993910
         static String ComputeSHA1(String filepath)
         {
-            using (FileStream fs = new FileStream(filepath, FileMode.Open))
-            using (BufferedStream bs = new BufferedStream(fs))
+            using (FileStream fs = new FileStream(filepath, FileMode.Open)) //check for unnecessary write requests
+            using (BufferedStream bs = new BufferedStream(fs)) //check for
             {
                 using (SHA1Managed sha1 = new SHA1Managed())
                 {
